@@ -203,6 +203,39 @@ def model(boxes, length, main):
     }
 
 
+def shield_model(blocking):
+    """riot shield: tall dark panel with a viewing window, a white stripe and a handle on the back"""
+    bx = [
+        box(2, -3, 7, 14, 19, 8, 'black'),           # panel
+        box(1.6, -3.4, 6.8, 14.4, -3, 8.2, 'dark'),  # rim
+        box(1.6, 19, 6.8, 14.4, 19.4, 8.2, 'dark'),
+        box(1.6, -3, 6.8, 2, 19, 8.2, 'dark'),
+        box(14, -3, 6.8, 14.4, 19, 8.2, 'dark'),
+        box(4, 11, 6.9, 12, 15, 7.1, 'glass'),       # window
+        box(2, 5, 6.9, 14, 6.4, 7.1, 'steel'),       # stripe
+        box(6, 6.5, 8, 10, 7.5, 9.6, 'metal'),       # handle
+        box(6, 6.5, 9.6, 10, 7.5, 9.8, 'rubber'),
+    ]
+    elems = [{'from': [b[0], b[1], b[2]], 'to': [b[3], b[4], b[5]],
+              'faces': {f: {'uv': uv(b[6]), 'texture': '#0'} for f in ('north', 'east', 'south', 'west', 'up', 'down')}} for b in bx]
+    disp = {
+        'thirdperson_righthand': {'rotation': [0, 90, 0], 'translation': [10, 6, -4], 'scale': [1, 1, 1]},
+        'thirdperson_lefthand': {'rotation': [0, 90, 0], 'translation': [10, 6, 12], 'scale': [1, 1, 1]},
+        'firstperson_righthand': {'rotation': [0, 180, 5], 'translation': [-10, 2, -10], 'scale': [1.25, 1.25, 1.25]},
+        'firstperson_lefthand': {'rotation': [0, 180, 5], 'translation': [10, 0, -10], 'scale': [1.25, 1.25, 1.25]},
+        'gui': {'rotation': [15, -25, -5], 'translation': [2, 3, 0], 'scale': [0.65, 0.65, 0.65]},
+        'fixed': {'rotation': [0, 180, 0], 'translation': [-2, 4, -5], 'scale': [0.5, 0.5, 0.5]},
+        'ground': {'rotation': [0, 0, 0], 'translation': [4, 4, 2], 'scale': [0.25, 0.25, 0.25]},
+    }
+    if blocking:
+        disp['thirdperson_righthand'] = {'rotation': [45, 135, 0], 'translation': [3.51, 11, -2], 'scale': [1, 1, 1]}
+        disp['thirdperson_lefthand'] = {'rotation': [45, 135, 0], 'translation': [13.51, 3, 5], 'scale': [1, 1, 1]}
+        disp['firstperson_righthand'] = {'rotation': [0, 180, -5], 'translation': [-15, 5, -11], 'scale': [1.25, 1.25, 1.25]}
+        disp['firstperson_lefthand'] = {'rotation': [0, 180, -5], 'translation': [5, 5, -11], 'scale': [1.25, 1.25, 1.25]}
+    return {'credit': 'MCDistrict Gun Fight - RealisticNode', 'texture_size': [64, 64],
+            'textures': {'0': 'mcdistrict:item/guns', 'particle': 'mcdistrict:item/guns'}, 'elements': elems, 'display': disp}
+
+
 def preview(name, boxes, path):
     """side view (x/y) above top view (x/z), painter-sorted, 12 px per unit"""
     S, pad = 12, 10
@@ -237,6 +270,12 @@ def main():
                              'tints': [{'type': 'minecraft:custom_model_data', 'index': 0, 'default': (r << 16) | (g_ << 8) | b_}]}},
                   open(os.path.join(item_dir, name + '.json'), 'w'), indent=1)
         preview(name, boxes, os.path.join(OUT, 'preview', name + '.png'))
+    json.dump(shield_model(False), open(os.path.join(mod_dir, 'riot_shield.json'), 'w'), indent=1)
+    json.dump(shield_model(True), open(os.path.join(mod_dir, 'riot_shield_blocking.json'), 'w'), indent=1)
+    json.dump({'model': {'type': 'minecraft:condition', 'property': 'minecraft:using_item',
+                         'on_true': {'type': 'minecraft:model', 'model': 'mcdistrict:item/riot_shield_blocking'},
+                         'on_false': {'type': 'minecraft:model', 'model': 'mcdistrict:item/riot_shield'}}},
+              open(os.path.join(item_dir, 'riot_shield.json'), 'w'), indent=1)
     json.dump({'pack': {'description': 'MCDistrict Gun Fight weapons', 'pack_format': 46,
                         'supported_formats': {'min_inclusive': 46, 'max_inclusive': 999},
                         'min_format': 46, 'max_format': 999}}, open(os.path.join(PACK, 'pack.mcmeta'), 'w'), indent=1)
