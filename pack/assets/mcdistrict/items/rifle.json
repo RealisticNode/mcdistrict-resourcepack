@@ -1,6 +1,13 @@
 {
  "model": {
   "type": "minecraft:model",
-  "model": "mcdistrict:item/rifle"
+  "model": "mcdistrict:item/rifle",
+  "tints": [
+   {
+    "type": "minecraft:custom_model_data",
+    "index": 0,
+    "default": 2105637
+   }
+  ]
  }
 }

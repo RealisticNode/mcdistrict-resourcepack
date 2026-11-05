@@ -11,7 +11,12 @@ PAL = {
     'metal': (58, 61, 66), 'black': (30, 31, 34), 'dark': (78, 82, 88), 'steel': (128, 134, 142),
     'wood': (112, 70, 38), 'lwood': (150, 100, 56), 'olive': (75, 83, 40), 'tan': (170, 146, 104),
     'red': (190, 50, 40), 'glass': (90, 160, 200), 'brass': (181, 137, 59), 'rubber': (22, 22, 24),
+    'paint': (236, 236, 236),  # body parts: tinted by the item (default colour or the player's skin)
 }
+
+# the body material of each gun: those parts get repainted by skins
+MAIN = {'pistol': 'metal', 'revolver': 'metal', 'smg': 'black', 'shotgun': 'metal', 'rifle': 'black',
+        'marksman': 'tan', 'sniper': 'metal', 'lmg': 'olive'}
 KEYS = list(PAL)
 
 
@@ -172,10 +177,12 @@ def center(boxes):
     return [(b[0] + dx, b[1] + dy, b[2], b[3] + dx, b[4] + dy, b[5], b[6]) for b in boxes], max(xs) - min(xs)
 
 
-def model(boxes, length):
+def model(boxes, length, main):
     elems = []
     for b in boxes:
-        f = {face: {'uv': uv(b[6]), 'texture': '#0'} for face in ('north', 'east', 'south', 'west', 'up', 'down')}
+        paint = b[6] == main
+        f = {face: dict({'uv': uv('paint' if paint else b[6]), 'texture': '#0'}, **({'tintindex': 0} if paint else {}))
+             for face in ('north', 'east', 'south', 'west', 'up', 'down')}
         elems.append({'from': [round(b[0], 3), round(b[1], 3), round(b[2], 3)], 'to': [round(b[3], 3), round(b[4], 3), round(b[5], 3)], 'faces': f})
     s = 16 / max(16, length)  # fit long guns in the GUI slot
     return {
@@ -224,8 +231,11 @@ def main():
     texture().save(os.path.join(tex_dir, 'guns.png'))
     for name, boxes in guns().items():
         boxes, length = center(boxes)
-        json.dump(model(boxes, length), open(os.path.join(mod_dir, name + '.json'), 'w'), indent=1)
-        json.dump({'model': {'type': 'minecraft:model', 'model': 'mcdistrict:item/' + name}}, open(os.path.join(item_dir, name + '.json'), 'w'), indent=1)
+        json.dump(model(boxes, length, MAIN[name]), open(os.path.join(mod_dir, name + '.json'), 'w'), indent=1)
+        r, g_, b_ = (min(255, round(v * 255 / 236)) for v in PAL[MAIN[name]])
+        json.dump({'model': {'type': 'minecraft:model', 'model': 'mcdistrict:item/' + name,
+                             'tints': [{'type': 'minecraft:custom_model_data', 'index': 0, 'default': (r << 16) | (g_ << 8) | b_}]}},
+                  open(os.path.join(item_dir, name + '.json'), 'w'), indent=1)
         preview(name, boxes, os.path.join(OUT, 'preview', name + '.png'))
     json.dump({'pack': {'description': 'MCDistrict Gun Fight weapons', 'pack_format': 46,
                         'supported_formats': {'min_inclusive': 46, 'max_inclusive': 999},

@@ -1,6 +1,13 @@
 {
  "model": {
   "type": "minecraft:model",
-  "model": "mcdistrict:item/shotgun"
+  "model": "mcdistrict:item/shotgun",
+  "tints": [
+   {
+    "type": "minecraft:custom_model_data",
+    "index": 0,
+    "default": 4145735
+   }
+  ]
  }
 }
