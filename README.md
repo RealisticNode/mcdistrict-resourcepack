@@ -4,7 +4,7 @@
 The server points each gun to `mcdistrict:<gun>` with the `item_model` component (Minecraft 1.21.4+), only for
 players whose client loaded this pack. `gen.py` builds the models, the palette texture and the zip.
 
-Hub menu icons (v5): `mcdistrict:icon_squid`, `mcdistrict:icon_copcar`, `mcdistrict:icon_anarchy` (2D items, `icons.py`);
+Hub menu icons (v5): `mcdistrict:icon_squid`, `mcdistrict:icon_copcar`, `mcdistrict:icon_anarchy` (2D items, `icons.py`); v6 adds `mcdistrict:icon_phone` (GTA phone);
 the Gun Fight icon uses `mcdistrict:sniper`.
 
 Download: see the latest release (`mcd-guns.zip`).

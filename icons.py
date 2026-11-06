@@ -37,14 +37,34 @@ def copcar():
     return im
 
 
+def phone():
+    im = Image.new('RGBA', (32, 32), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle((8, 2, 23, 29), radius=3, fill=(22, 22, 28, 255))          # body
+    d.rounded_rectangle((8, 2, 23, 29), radius=3, outline=(240, 200, 60, 255))     # gold rim
+    d.rectangle((10, 5, 21, 25), fill=(20, 110, 140, 255))                          # screen
+    for y in range(5, 26):                                                          # screen gradient
+        c = (20 + (y - 5) * 2, 110 + (y - 5) * 3, 150 + (y - 5) * 3, 255)
+        d.line((10, y, 21, y), fill=c)
+    d.rectangle((14, 3, 17, 3), fill=(60, 60, 70, 255))                             # notch / speaker
+    cols = [(240, 200, 60, 255), (60, 220, 230, 255), (230, 90, 150, 255), (120, 220, 90, 255)]
+    for r in range(3):                                                              # app icons
+        for c in range(3):
+            x, y = 11 + c * 4, 8 + r * 5
+            d.rectangle((x, y, x + 2, y + 2), fill=cols[(r * 3 + c) % 4])
+    d.rectangle((14, 27, 17, 27), fill=(150, 150, 160, 255))                        # home bar
+    return im
+
+
 def build(pack):
     tex = os.path.join(pack, 'assets/mcdistrict/textures/item')
     mod = os.path.join(pack, 'assets/mcdistrict/models/item')
     itm = os.path.join(pack, 'assets/mcdistrict/items')
     squid().save(os.path.join(tex, 'icon_squid.png'))
     copcar().save(os.path.join(tex, 'icon_copcar.png'))
+    phone().save(os.path.join(tex, 'icon_phone.png'))
     shutil.copy(os.path.join(HERE, 'icon_anarchy_src.png'), os.path.join(tex, 'icon_anarchy.png'))
-    for n in ('icon_squid', 'icon_copcar', 'icon_anarchy'):
+    for n in ('icon_squid', 'icon_copcar', 'icon_anarchy', 'icon_phone'):
         json.dump({'parent': 'minecraft:item/generated', 'textures': {'layer0': 'mcdistrict:item/' + n}},
                   open(os.path.join(mod, n + '.json'), 'w'), indent=1)
         json.dump({'model': {'type': 'minecraft:model', 'model': 'mcdistrict:item/' + n}},
