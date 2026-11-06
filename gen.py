@@ -276,6 +276,8 @@ def main():
                          'on_true': {'type': 'minecraft:model', 'model': 'mcdistrict:item/riot_shield_blocking'},
                          'on_false': {'type': 'minecraft:model', 'model': 'mcdistrict:item/riot_shield'}}},
               open(os.path.join(item_dir, 'riot_shield.json'), 'w'), indent=1)
+    import icons
+    icons.build(PACK)
     json.dump({'pack': {'description': 'MCDistrict Gun Fight weapons', 'pack_format': 46,
                         'supported_formats': {'min_inclusive': 46, 'max_inclusive': 999},
                         'min_format': 46, 'max_format': 999}}, open(os.path.join(PACK, 'pack.mcmeta'), 'w'), indent=1)
