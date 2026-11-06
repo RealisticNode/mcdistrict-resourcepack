@@ -191,10 +191,10 @@ def model(boxes, length, main):
         'textures': {'0': 'mcdistrict:item/guns', 'particle': 'mcdistrict:item/guns'},
         'elements': elems,
         'display': {
-            'thirdperson_righthand': {'rotation': [0, -90, 0], 'translation': [0, 3, 1.5], 'scale': [0.55, 0.55, 0.55]},
-            'thirdperson_lefthand': {'rotation': [0, 90, 0], 'translation': [0, 3, 1.5], 'scale': [0.55, 0.55, 0.55]},
-            'firstperson_righthand': {'rotation': [0, -90, 0], 'translation': [3, 3.5, -2], 'scale': [0.65, 0.65, 0.65]},
-            'firstperson_lefthand': {'rotation': [0, 90, 0], 'translation': [3, 3.5, -2], 'scale': [0.65, 0.65, 0.65]},
+            'thirdperson_righthand': {'rotation': [0, 90, 0], 'translation': [0, 3, 1.5], 'scale': [0.55, 0.55, 0.55]},
+            'thirdperson_lefthand': {'rotation': [0, -90, 0], 'translation': [0, 3, 1.5], 'scale': [0.55, 0.55, 0.55]},
+            'firstperson_righthand': {'rotation': [0, 90, 0], 'translation': [3, 3.5, -2], 'scale': [0.65, 0.65, 0.65]},
+            'firstperson_lefthand': {'rotation': [0, -90, 0], 'translation': [3, 3.5, -2], 'scale': [0.65, 0.65, 0.65]},
             'gui': {'rotation': [15, -30, 0], 'translation': [0, 0, 0], 'scale': [round(0.9 * s, 3)] * 3},
             'ground': {'rotation': [0, 0, 0], 'translation': [0, 2, 0], 'scale': [0.4, 0.4, 0.4]},
             'fixed': {'rotation': [0, 180, 0], 'translation': [0, 0, 0], 'scale': [round(0.9 * s, 3)] * 3},
@@ -219,19 +219,19 @@ def shield_model(blocking):
     elems = [{'from': [b[0], b[1], b[2]], 'to': [b[3], b[4], b[5]],
               'faces': {f: {'uv': uv(b[6]), 'texture': '#0'} for f in ('north', 'east', 'south', 'west', 'up', 'down')}} for b in bx]
     disp = {
-        'thirdperson_righthand': {'rotation': [0, 90, 0], 'translation': [10, 6, -4], 'scale': [1, 1, 1]},
-        'thirdperson_lefthand': {'rotation': [0, 90, 0], 'translation': [10, 6, 12], 'scale': [1, 1, 1]},
-        'firstperson_righthand': {'rotation': [0, 180, 5], 'translation': [-10, 2, -10], 'scale': [1.25, 1.25, 1.25]},
-        'firstperson_lefthand': {'rotation': [0, 180, 5], 'translation': [10, 0, -10], 'scale': [1.25, 1.25, 1.25]},
-        'gui': {'rotation': [15, -25, -5], 'translation': [2, 3, 0], 'scale': [0.65, 0.65, 0.65]},
-        'fixed': {'rotation': [0, 180, 0], 'translation': [-2, 4, -5], 'scale': [0.5, 0.5, 0.5]},
+        'thirdperson_righthand': {'rotation': [0, 270, 0], 'translation': [10, 6, -4], 'scale': [1, 1, 1]},
+        'thirdperson_lefthand': {'rotation': [0, 270, 0], 'translation': [10, 6, 12], 'scale': [1, 1, 1]},
+        'firstperson_righthand': {'rotation': [0, 0, 5], 'translation': [-10, 2, -10], 'scale': [0.95, 0.95, 0.95]},
+        'firstperson_lefthand': {'rotation': [0, 0, 5], 'translation': [10, 0, -10], 'scale': [0.95, 0.95, 0.95]},
+        'gui': {'rotation': [15, 155, -5], 'translation': [2, 3, 0], 'scale': [0.65, 0.65, 0.65]},
+        'fixed': {'rotation': [0, 0, 0], 'translation': [-2, 4, -5], 'scale': [0.5, 0.5, 0.5]},
         'ground': {'rotation': [0, 0, 0], 'translation': [4, 4, 2], 'scale': [0.25, 0.25, 0.25]},
     }
     if blocking:
-        disp['thirdperson_righthand'] = {'rotation': [45, 135, 0], 'translation': [3.51, 11, -2], 'scale': [1, 1, 1]}
-        disp['thirdperson_lefthand'] = {'rotation': [45, 135, 0], 'translation': [13.51, 3, 5], 'scale': [1, 1, 1]}
-        disp['firstperson_righthand'] = {'rotation': [0, 180, -5], 'translation': [-15, 5, -11], 'scale': [1.25, 1.25, 1.25]}
-        disp['firstperson_lefthand'] = {'rotation': [0, 180, -5], 'translation': [5, 5, -11], 'scale': [1.25, 1.25, 1.25]}
+        disp['thirdperson_righthand'] = {'rotation': [45, 315, 0], 'translation': [3.51, 11, -2], 'scale': [1, 1, 1]}
+        disp['thirdperson_lefthand'] = {'rotation': [45, 315, 0], 'translation': [13.51, 3, 5], 'scale': [1, 1, 1]}
+        disp['firstperson_righthand'] = {'rotation': [0, 0, -5], 'translation': [-15, 5, -11], 'scale': [0.95, 0.95, 0.95]}
+        disp['firstperson_lefthand'] = {'rotation': [0, 0, -5], 'translation': [5, 5, -11], 'scale': [0.95, 0.95, 0.95]}
     return {'credit': 'MCDistrict Gun Fight - RealisticNode', 'texture_size': [64, 64],
             'textures': {'0': 'mcdistrict:item/guns', 'particle': 'mcdistrict:item/guns'}, 'elements': elems, 'display': disp}
 
